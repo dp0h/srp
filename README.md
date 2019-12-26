@@ -1,2 +1,2 @@
-# srp
+# SRP
 Simple reverse proxy
