@@ -8,6 +8,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// Opts defines app options
+type Opts struct {
+	Port         int    `long:"port" env:"SRP_PORT" description:"port" default:"443"`
+	SslMode      string `long:"ssl-mode" env:"SRP_SSL_MODE" description:"ssl mode" choice:"none" choice:"static" choice:"auto" default:"none"`
+	Site         string `long:"site" env:"SRP_SITE" description:"site name"`
+	CertFile     string `long:"cert-file" env:"SRP_CERT_FILE" description:"path to cert.pem file"`
+	KeyFile      string `long:"key-file" env:"SRP_KEY_FILE" description:"path to cert.key file"`
+	AutoCertPath string `long:"autocert-path" env:"SRP_AUTOCERT_PATH" description:"dir where certificates will be stored by autocert manager" default:"./var/autocert"`
+	Dbg          bool   `long:"dbg" env:"SRP_DEBUG" description:"debug mode"`
+}
+
 var revision = "unknown"
 
 func main() {
