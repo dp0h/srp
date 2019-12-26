@@ -4,12 +4,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
-// Opts defines app options
-type Opts struct {
+var opts struct {
 	Port         int    `long:"port" env:"SRP_PORT" description:"port" default:"443"`
 	SslMode      string `long:"ssl-mode" env:"SRP_SSL_MODE" description:"ssl mode" choice:"none" choice:"static" choice:"auto" default:"none"`
 	Site         string `long:"site" env:"SRP_SITE" description:"site name"`
@@ -24,6 +24,14 @@ var revision = "unknown"
 func main() {
 	log.Printf("SRP - %s", revision)
 	setupLog(true)
+
+	if _, err := flags.Parse(&opts); err != nil {
+		os.Exit(1)
+	}
+
+
+	//
+
 }
 
 func setupLog(dbg bool) {
