@@ -41,7 +41,7 @@ func main() {
 		log.Warn().Err(err).Str("file", opts.Conf).Msg("failed to close config file")
 	}
 
-	//
+	log.Info().Int("n", len(conf.Services)).Msg("")
 
 }
 
