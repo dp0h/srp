@@ -1,0 +1,10 @@
+services:
+  srv1:
+    host: "example1.com"
+    healthcheck: "api/ping"
+    weight: 1
+
+  srv2:
+    host: "example2.com"
+    healthcheck: "api/ping"
+    weight: 2
