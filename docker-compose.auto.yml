@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  backtv-app:
+  srp-auto:
     restart: always
     container_name: srp-auto
     build:
@@ -15,7 +15,7 @@ services:
       - "443:443"
     environment:
       - SRP_PORT=443
-      - SRP_SSL_MODE="auto"
+      - SRP_SSL_MODE=auto
       - SRP_HOST=example.com
       - SRP_CONF=/app/srp.yml
       - SRP_AUTOCERT_PATH=/var/autocert
