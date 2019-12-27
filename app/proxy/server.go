@@ -40,6 +40,8 @@ func NewReverseProxyServer(port int, sslMode string, host string, certFile strin
 func (s *SRPServer) Run() {
 	log.Info().Int("port", s.port).Str("ssl-mode", s.sslMode).Msg("starting reverse proxy server")
 
+	//http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
 	switch s.sslMode {
 	case "none":
 		s.runHttp()
@@ -129,6 +131,8 @@ func serveReverseProxy(target string, res http.ResponseWriter, req *http.Request
 	}
 
 	proxy := httputil.NewSingleHostReverseProxy(targetUrl)
+
+	log.Debug().Str("host", req.Host).Str("url-host", req.URL.Host).Str("url-path", req.URL.Path).Str("url-scheme", req.URL.Scheme).Str("target", target).Msg("handle")
 
 	req.URL.Host = targetUrl.Host
 	req.URL.Scheme = targetUrl.Scheme
