@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 
 	"github.com/rs/zerolog/log"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // ConfigFile contains a list service configurations
@@ -30,5 +30,9 @@ func NewConf(reader io.Reader) *ConfFile {
 	if err = yaml.Unmarshal(data, &res); err != nil {
 		log.Fatal().Err(err).Msg("failed to parse config")
 	}
+	if len(res.Services) == 0 {
+		log.Fatal().Msg("no valid configuration found")
+	}
+
 	return res
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/dp0h/srp/app/config"
+	"github.com/dp0h/srp/app/proxy"
 	"os"
 	"time"
 
@@ -13,7 +14,7 @@ import (
 var opts struct {
 	Port         int    `long:"port" env:"SRP_PORT" description:"port" default:"443"`
 	SslMode      string `long:"ssl-mode" env:"SRP_SSL_MODE" description:"ssl mode" choice:"none" choice:"static" choice:"auto" default:"none"`
-	Site         string `long:"site" env:"SRP_SITE" description:"site name"`
+	Host         string `long:"host" env:"SRP_HOST" description:"host name"`
 	CertFile     string `long:"cert-file" env:"SRP_CERT_FILE" description:"path to cert.pem file"`
 	KeyFile      string `long:"key-file" env:"SRP_KEY_FILE" description:"path to cert.key file"`
 	AutoCertPath string `long:"autocert-path" env:"SRP_AUTOCERT_PATH" description:"dir where certificates will be stored by autocert manager" default:"./var/autocert"`
@@ -41,8 +42,7 @@ func main() {
 		log.Warn().Err(err).Str("file", opts.Conf).Msg("failed to close config file")
 	}
 
-	log.Info().Int("n", len(conf.Services)).Msg("")
-
+	proxy.NewReverseProxyServer(opts.Port, opts.SslMode, opts.Host, opts.CertFile, opts.KeyFile, opts.AutoCertPath, conf).Run()
 }
 
 func setupLog(dbg bool) {
