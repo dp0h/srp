@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/dp0h/srp/app/config"
 	"os"
 	"time"
 
@@ -16,6 +17,7 @@ var opts struct {
 	CertFile     string `long:"cert-file" env:"SRP_CERT_FILE" description:"path to cert.pem file"`
 	KeyFile      string `long:"key-file" env:"SRP_KEY_FILE" description:"path to cert.key file"`
 	AutoCertPath string `long:"autocert-path" env:"SRP_AUTOCERT_PATH" description:"dir where certificates will be stored by autocert manager" default:"./var/autocert"`
+	Conf         string `long:"conf" env:"SRP_CONF" description:"configuration file" default:"srp.yml"`
 	Dbg          bool   `long:"dbg" env:"SRP_DEBUG" description:"debug mode"`
 }
 
@@ -26,9 +28,18 @@ func main() {
 	setupLog(true)
 
 	if _, err := flags.Parse(&opts); err != nil {
-		os.Exit(1)
+		log.Fatal().Err(err).Msg("failed to parse args")
 	}
 
+	confReader, err := os.Open(opts.Conf)
+	if err != nil {
+		log.Fatal().Err(err).Str("file", opts.Conf).Msg("failed to open config file")
+	}
+
+	conf := config.NewConf(confReader)
+	if err := confReader.Close(); err != nil {
+		log.Warn().Err(err).Str("file", opts.Conf).Msg("failed to close config file")
+	}
 
 	//
 
