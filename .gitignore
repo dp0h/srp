@@ -14,3 +14,6 @@
 # GoLand
 .idea
 
+# Config paths
+.static
+.auto

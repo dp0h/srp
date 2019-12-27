@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  backtv-app:
+    restart: always
+    container_name: srp-static
+    build:
+      context: .
+      args:
+        - SRP_BUILDARG_CERT_FILE=./.static/cert.pem
+        - SRP_BUILDARG_KEY_FILE=./.statc/key.pem
+        - SRP_BUILDARG_CONFIG_FILE=./.static/srp.yml
+    ports:
+      - "443:443"
+    environment:
+      - SRP_PORT=443
+      - SRP_SSL_MODE="static"
+      - SRP_CERT_FILE=/app/cert.pem
+      - SRP_KEY_FILE=/app/key.pem
+      - SRP_CONF=/app/srp.yml
+      - SRP_DEBUG=true
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+

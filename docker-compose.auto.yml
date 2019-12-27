@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  backtv-app:
+    restart: always
+    container_name: srp-auto
+    build:
+      context: .
+      args:
+        - SRP_BUILDARG_CONFIG_FILE=./.auto/srp.yml
+    volumes:
+      - letsencrypt:/var/autocert
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - SRP_PORT=443
+      - SRP_SSL_MODE="auto"
+      - SRP_HOST=example.com
+      - SRP_CONF=/app/srp.yml
+      - SRP_AUTOCERT_PATH=/var/autocert
+      - SRP_DEBUG=true
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+volumes:
+  letsencrypt:
