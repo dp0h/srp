@@ -3,10 +3,12 @@ package proxy
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/dp0h/srp/app/config"
+	"github.com/dp0h/srp/app/pool"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/crypto/acme/autocert"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 )
 
 // SRPServer - reverse proxy server
@@ -17,11 +19,11 @@ type SRPServer struct {
 	certFile     string
 	keyFile      string
 	autoCertPath string
-	config       *config.ConfFile
+	rwp          *pool.RandomWeightedPool
 }
 
 // NewReverseProxyServer creates a new reverse proxy server
-func NewReverseProxyServer(port int, sslMode string, host string, certFile string, keyFile string, autoCertPath string, config *config.ConfFile) *SRPServer {
+func NewReverseProxyServer(port int, sslMode string, host string, certFile string, keyFile string, autoCertPath string, rwp *pool.RandomWeightedPool) *SRPServer {
 	res := SRPServer{
 		port:         port,
 		sslMode:      sslMode,
@@ -29,7 +31,7 @@ func NewReverseProxyServer(port int, sslMode string, host string, certFile strin
 		certFile:     certFile,
 		keyFile:      keyFile,
 		autoCertPath: autoCertPath,
-		config:       config,
+		rwp:          rwp,
 	}
 	return &res
 }
@@ -88,13 +90,13 @@ func (s *SRPServer) runAuto() {
 	}
 
 	addr := fmt.Sprintf(":%d", s.port)
+	http.HandleFunc("/", s.handle)
 	server := &http.Server{
 		Addr: addr,
 		TLSConfig: &tls.Config{
 			GetCertificate: certManager.GetCertificate,
 		},
 	}
-	http.HandleFunc("/", s.handle)
 
 	go func() {
 		err := http.ListenAndServe(":http", certManager.HTTPHandler(nil))
@@ -109,5 +111,29 @@ func (s *SRPServer) runAuto() {
 }
 
 func (s *SRPServer) handle(res http.ResponseWriter, req *http.Request) {
+	target, err := s.rwp.Next()
+	if err != nil {
+		log.Warn().Err(err).Msg("no live services available")
+		res.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+	serveReverseProxy(target, res, req)
+}
 
+func serveReverseProxy(target string, res http.ResponseWriter, req *http.Request) {
+	targetUrl, err := url.Parse(target)
+	if err != nil {
+		log.Error().Err(err).Msg("failed to parse target")
+		res.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	proxy := httputil.NewSingleHostReverseProxy(targetUrl)
+
+	req.URL.Host = targetUrl.Host
+	req.URL.Scheme = targetUrl.Scheme
+	req.Header.Set("X-Forwarded-Host", req.Header.Get("Host"))
+	req.Host = targetUrl.Host
+
+	proxy.ServeHTTP(res, req)
 }

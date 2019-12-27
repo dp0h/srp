@@ -1,10 +1,9 @@
 package config
 
 import (
+	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 const srpYaml = `
@@ -20,7 +19,7 @@ services:
     weight: 2
 `
 
-func TestConfig(t *testing.T) {
+func TestConfig_NewConf(t *testing.T) {
 	conf := NewConf(strings.NewReader(srpYaml))
 
 	assert.NotNil(t, conf)
