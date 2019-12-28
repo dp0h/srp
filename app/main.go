@@ -22,7 +22,7 @@ var opts struct {
 	Conf          string        `long:"conf" env:"SRP_CONF" description:"configuration file" default:"srp.yml"`
 	Refresh       time.Duration `long:"refresh" env:"SRP_REFRESH" default:"30" description:"keep alive refresh interval"`
 	TimeOut       time.Duration `long:"timeout" env:"SRP_TIMEOUT" default:"10" description:"keep alive timeouts"`
-	ValidateCerts bool          `long:"secure-cert" env:"SRP_VALIDATE_CERTS" description:"validate certificates" default:"false"`
+	ValidateCerts bool          `long:"secure-cert" env:"SRP_VALIDATE_CERTS" description:"validate certificates"`
 	Dbg           bool          `long:"dbg" env:"SRP_DEBUG" description:"debug mode"`
 }
 

@@ -89,6 +89,8 @@ func (s *SRPServer) runAuto() {
 		log.Fatal().Msg("autocert-path is required")
 	}
 
+	log.Info().Str("host", s.host).Msg("starting autocert manager")
+
 	certManager := autocert.Manager{
 		Prompt:     autocert.AcceptTOS,
 		HostPolicy: autocert.HostWhitelist(s.host),
