@@ -16,7 +16,7 @@ services:
     environment:
       - SRP_PORT=443
       - SRP_SSL_MODE=auto
-      - SRP_HOST=example.com
+      - SRP_HOST=${SRP_HOST}
       - SRP_CONF=/app/srp.yml
       - SRP_AUTOCERT_PATH=/var/autocert
       - SRP_DEBUG=true
