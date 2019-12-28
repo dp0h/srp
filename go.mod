@@ -2,6 +2,8 @@ module github.com/dp0h/srp
 
 go 1.13
 
+replace golang.org/x/crypto => github.com/golang/crypto v0.0.0-20191227163750-53104e6ec876
+
 require (
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/rs/zerolog v1.17.2
