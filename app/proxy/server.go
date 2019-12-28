@@ -13,27 +13,27 @@ import (
 
 // SRPServer - reverse proxy server
 type SRPServer struct {
-	port         int
-	sslMode      string
-	host         string
-	certFile     string
-	keyFile      string
-	autoCertPath string
-	strictCert   bool
-	rwp          *pool.RandomWeightedPool
+	port          int
+	sslMode       string
+	host          string
+	certFile      string
+	keyFile       string
+	autoCertPath  string
+	validateCerts bool
+	rwp           *pool.RandomWeightedPool
 }
 
 // NewReverseProxyServer creates a new reverse proxy server
-func NewReverseProxyServer(port int, sslMode string, host string, certFile string, keyFile string, autoCertPath string, rwp *pool.RandomWeightedPool) *SRPServer {
+func NewReverseProxyServer(port int, sslMode string, host string, certFile string, keyFile string, autoCertPath string, validateCerts bool, rwp *pool.RandomWeightedPool) *SRPServer {
 	res := SRPServer{
-		port:         port,
-		sslMode:      sslMode,
-		host:         host,
-		certFile:     certFile,
-		keyFile:      keyFile,
-		autoCertPath: autoCertPath,
-		strictCert:   false,
-		rwp:          rwp,
+		port:          port,
+		sslMode:       sslMode,
+		host:          host,
+		certFile:      certFile,
+		keyFile:       keyFile,
+		autoCertPath:  autoCertPath,
+		validateCerts: validateCerts,
+		rwp:           rwp,
 	}
 	return &res
 }
@@ -42,7 +42,7 @@ func NewReverseProxyServer(port int, sslMode string, host string, certFile strin
 func (s *SRPServer) Run() {
 	log.Info().Int("port", s.port).Str("ssl-mode", s.sslMode).Msg("starting reverse proxy server")
 
-	if !s.strictCert {
+	if !s.validateCerts {
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
