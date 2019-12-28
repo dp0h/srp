@@ -18,9 +18,9 @@ type RandomWeightedPool struct {
 }
 
 type service struct {
-	Host        string
-	HealthCheck string
-	Weight      int
+	host        string
+	healthCheck string
+	weight      int
 	alive       bool
 }
 
@@ -31,6 +31,7 @@ func NewRandomWeightedPool(config *config.ConfFile, refresh time.Duration, timeo
 		services: configToServices(config),
 		refresh:  refresh,
 		timeout:  timeout}
+	go res.healthCheck()
 	return &res
 }
 
@@ -39,9 +40,9 @@ func configToServices(config *config.ConfFile) []*service {
 
 	for _, v := range config.Services {
 		svc := service{
-			Host:        v.Host,
-			HealthCheck: v.HealthCheck,
-			Weight:      v.Weight,
+			host:        v.Host,
+			healthCheck: v.HealthCheck,
+			weight:      v.Weight,
 			alive:       true,
 		}
 
@@ -62,28 +63,28 @@ func (p *RandomWeightedPool) Next() (string, error) {
 	}
 
 	if len(alive) == 1 {
-		return alive[0].Host, nil
+		return alive[0].host, nil
 	}
 
 	totalWeight := 0
 	for _, item := range alive {
-		totalWeight += item.Weight
+		totalWeight += item.weight
 	}
 
 	r := rand.Intn(totalWeight) + 1
 	for _, item := range alive {
-		r -= item.Weight
+		r -= item.weight
 		if r <= 0 {
-			return item.Host, nil
+			return item.host, nil
 		}
 	}
 
-	return alive[0].Host, nil
+	return alive[0].host, nil
 }
 
 type hostAndWeight struct {
-	Host   string
-	Weight int
+	host   string
+	weight int
 }
 
 func (p *RandomWeightedPool) getAlive() ([]hostAndWeight, error) {
@@ -97,10 +98,10 @@ func (p *RandomWeightedPool) getAlive() ([]hostAndWeight, error) {
 	var res []hostAndWeight
 
 	for _, svc := range p.services {
-		if svc.alive && svc.Weight > 0 {
+		if svc.alive && svc.weight > 0 {
 			hw := hostAndWeight{
-				Host:   svc.Host,
-				Weight: svc.Weight,
+				host:   svc.host,
+				weight: svc.weight,
 			}
 			res = append(res, hw)
 		}

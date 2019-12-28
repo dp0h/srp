@@ -20,8 +20,8 @@ var opts struct {
 	KeyFile       string        `long:"key-file" env:"SRP_KEY_FILE" description:"path to cert.key file"`
 	AutoCertPath  string        `long:"autocert-path" env:"SRP_AUTOCERT_PATH" description:"dir where certificates will be stored by autocert manager" default:"./var/autocert"`
 	Conf          string        `long:"conf" env:"SRP_CONF" description:"configuration file" default:"srp.yml"`
-	Refresh       time.Duration `long:"refresh" env:"SRP_REFRESH" default:"30" description:"keep alive refresh interval"`
-	TimeOut       time.Duration `long:"timeout" env:"SRP_TIMEOUT" default:"10" description:"keep alive timeouts"`
+	Refresh       time.Duration `long:"refresh" env:"SRP_REFRESH" description:"keep alive refresh interval" default:"30s"`
+	TimeOut       time.Duration `long:"timeout" env:"SRP_TIMEOUT" description:"keep alive timeouts" default:"10s"`
 	ValidateCerts bool          `long:"secure-cert" env:"SRP_VALIDATE_CERTS" description:"validate certificates"`
 	Dbg           bool          `long:"dbg" env:"SRP_DEBUG" description:"debug mode"`
 }

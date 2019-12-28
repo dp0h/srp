@@ -47,11 +47,23 @@ services:
     host: "example4.com"
     healthcheck: "api/ping"
     weight: 2
+
+  srv5:
+    host: "example5.com"
+    healthcheck: "api/ping"
+    weight: 2
 `
 
 func TestRandomWeightedPool_NextDistribution(t *testing.T) {
 	conf := config.NewConf(strings.NewReader(srpYaml2))
 	pl := NewRandomWeightedPool(conf, time.Duration(0), time.Duration(0))
+
+	// set no alive
+	for _, item := range pl.services {
+		if item.host == "example4.com" {
+			item.alive = false
+		}
+	}
 
 	hosts := make(map[string]int)
 
@@ -70,6 +82,6 @@ func TestRandomWeightedPool_NextDistribution(t *testing.T) {
 	assert.Greater(t, hosts["example2.com"], 200)
 	assert.Less(t, hosts["example2.com"], 300)
 
-	assert.Greater(t, hosts["example4.com"], 400)
-	assert.Less(t, hosts["example4.com"], 600)
+	assert.Greater(t, hosts["example5.com"], 400)
+	assert.Less(t, hosts["example5.com"], 600)
 }
