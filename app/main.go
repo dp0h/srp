@@ -30,10 +30,14 @@ var revision = "unknown"
 
 func main() {
 	log.Printf("SRP - %s", revision)
-	setupLog(true)
+	setupLog()
 
 	if _, err := flags.Parse(&opts); err != nil {
 		log.Fatal().Err(err).Msg("failed to parse args")
+	}
+
+	if opts.Dbg {
+		setDebugLog()
 	}
 
 	confReader, err := os.Open(opts.Conf)
@@ -50,10 +54,11 @@ func main() {
 	proxy.NewReverseProxyServer(opts.Port, opts.SslMode, opts.Host, opts.CertFile, opts.KeyFile, opts.AutoCertPath, opts.ValidateCerts, rwp).Run()
 }
 
-func setupLog(dbg bool) {
+func setupLog() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if dbg {
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	}
+}
+
+func setDebugLog() {
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 }
