@@ -49,13 +49,10 @@ func (s *SRPServer) Run() {
 	switch s.sslMode {
 	case "none":
 		s.runHttp()
-		break
 	case "static":
 		s.runStatic()
-		break
 	case "auto":
 		s.runAuto()
-		break
 	default:
 		log.Fatal().Str("ssl-mode", s.sslMode).Msg("unrecognized ssl mode")
 	}
