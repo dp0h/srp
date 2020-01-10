@@ -1,7 +1,6 @@
 package pool
 
 import (
-	"errors"
 	"fmt"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -61,7 +60,7 @@ func checkURL(baseUrl string, path string, timeout time.Duration) error {
 	resp, err = client.Get(url)
 
 	if err != nil {
-		return errors.New(fmt.Sprintf("failed to hit %s with error: %s", url, err.Error()))
+		return fmt.Errorf("failed to hit %s with error: %s", url, err.Error())
 	}
 
 	defer func() {
@@ -71,7 +70,7 @@ func checkURL(baseUrl string, path string, timeout time.Duration) error {
 	}()
 
 	if resp.StatusCode >= 400 {
-		return errors.New(fmt.Sprintf("bad status code %d for %s", resp.StatusCode, url))
+		return fmt.Errorf("bad status code %d for %s", resp.StatusCode, url)
 	}
 
 	return nil

@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 )
 
-// ConfigFile contains a list service configurations
+// ConfFile contains a list service configurations
 type ConfFile struct {
 	Services map[string]ServiceConfig `yaml:"services"`
 }

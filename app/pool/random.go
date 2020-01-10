@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// RandomWeighted
+// RandomWeightedPool
 type RandomWeightedPool struct {
 	refresh  time.Duration
 	timeout  time.Duration
@@ -24,7 +24,7 @@ type service struct {
 	alive       bool
 }
 
-// NewRandomWeighted new random weighted pool of services
+// NewRandomWeightedPool new random weighted pool of services
 func NewRandomWeightedPool(config *config.ConfFile, refresh time.Duration, timeout time.Duration) *RandomWeightedPool {
 	rand.Seed(int64(time.Now().Nanosecond()))
 	res := RandomWeightedPool{
@@ -56,6 +56,7 @@ func configToServices(config *config.ConfFile) []*service {
 	return res
 }
 
+// Next returns next url
 func (p *RandomWeightedPool) Next() (string, error) {
 	alive, err := p.getAlive()
 	if err != nil {
