@@ -1,6 +1,6 @@
 
 on: push
-name: Go build
+name: build
 jobs:
   checks:
     name: run
