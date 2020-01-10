@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// RandomWeightedPool
+// RandomWeightedPool defines pool of services
 type RandomWeightedPool struct {
 	refresh  time.Duration
 	timeout  time.Duration
