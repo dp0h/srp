@@ -19,7 +19,7 @@ services:
       - SRP_HOST=${SRP_HOST}
       - SRP_CONF=/app/srp.yml
       - SRP_AUTOCERT_PATH=/var/autocert
-      - SRP_DEBUG=true
+      - SRP_DEBUG=false
     logging:
       driver: "json-file"
       options:
