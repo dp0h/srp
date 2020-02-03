@@ -17,4 +17,4 @@
 # Config paths
 .static
 .auto
-.none
+.http
