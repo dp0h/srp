@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  srp-static:
+    restart: always
+    container_name: srp-http
+    build:
+      context: .
+      args:
+        - SRP_BUILDARG_CONFIG_FILE=./.none/srp.yml
+    ports:
+      - "8080:8080"
+    environment:
+      - SRP_PORT=8080
+      - SRP_SSL_MODE=none
+      - SRP_CONF=/app/srp.yml
+      - SRP_DEBUG=true
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+

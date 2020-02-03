@@ -30,3 +30,9 @@ static-up:
 
 static-down:
 	docker-compose -f docker-compose.static.yml down
+
+http-up:
+	docker-compose -f docker-compose.http.yml up --build -d
+
+http-down:
+	docker-compose -f docker-compose.http.yml down
