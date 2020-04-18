@@ -37,15 +37,15 @@ func (p *RandomWeightedPool) checkService(svc *service) bool {
 	if err != nil {
 		log.Debug().Err(err).Str("host", svc.host).Msg("healtcheck failed")
 		if svc.alive {
-			log.Warn().Str("host", svc.host).Bool("alive", svc.alive).Msg("changed state")
 			svc.alive = false
+			log.Warn().Str("host", svc.host).Bool("alive", svc.alive).Msg("changed state")
 		}
 		return false
 	}
 
 	if !svc.alive {
-		log.Info().Str("host", svc.host).Bool("alive", svc.alive).Msg("changed state")
 		svc.alive = true
+		log.Info().Str("host", svc.host).Bool("alive", svc.alive).Msg("changed state")
 	}
 	return true
 }
