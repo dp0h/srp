@@ -15,18 +15,16 @@ github.com/rs/zerolog/log
 ## explicit
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
-# golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 => github.com/golang/crypto v0.0.0-20191227163750-53104e6ec876
+# golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 => github.com/golang/crypto v0.0.0-20191227163750-53104e6ec876
 ## explicit
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
-# golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d
+# golang.org/x/net v0.7.0
 ## explicit
 golang.org/x/net/idna
-# golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c
-## explicit
-golang.org/x/sys/internal/unsafeheader
+# golang.org/x/sys v0.5.0
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.6
+# golang.org/x/text v0.7.0
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
