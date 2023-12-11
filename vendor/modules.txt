@@ -1,37 +1,47 @@
-# github.com/davecgh/go-spew v1.1.0
+# github.com/davecgh/go-spew v1.1.1
+## explicit
 github.com/davecgh/go-spew/spew
 # github.com/jessevdk/go-flags v1.5.0
-## explicit
+## explicit; go 1.15
 github.com/jessevdk/go-flags
+# github.com/mattn/go-colorable v0.1.13
+## explicit; go 1.15
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.19
+## explicit; go 1.15
+github.com/mattn/go-isatty
 # github.com/pmezard/go-difflib v1.0.0
-github.com/pmezard/go-difflib/difflib
-# github.com/rs/zerolog v1.23.0
 ## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/rs/zerolog v1.31.0
+## explicit; go 1.15
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
 github.com/rs/zerolog/internal/json
 github.com/rs/zerolog/log
-# github.com/stretchr/testify v1.4.0
-## explicit
+# github.com/stretchr/testify v1.8.4
+## explicit; go 1.20
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
-# golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 => github.com/golang/crypto v0.0.0-20191227163750-53104e6ec876
-## explicit
+# golang.org/x/crypto v0.16.0
+## explicit; go 1.18
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
-# golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d
-## explicit
+# golang.org/x/net v0.10.0
+## explicit; go 1.17
 golang.org/x/net/idna
-# golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c
-## explicit
-golang.org/x/sys/internal/unsafeheader
+# golang.org/x/sys v0.15.0
+## explicit; go 1.18
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.6
+# golang.org/x/text v0.14.0
+## explicit; go 1.18
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 # gopkg.in/yaml.v2 v2.4.0
-## explicit
+## explicit; go 1.15
 gopkg.in/yaml.v2
-# golang.org/x/crypto => github.com/golang/crypto v0.0.0-20191227163750-53104e6ec876
+# gopkg.in/yaml.v3 v3.0.1
+## explicit
+gopkg.in/yaml.v3
