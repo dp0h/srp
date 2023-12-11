@@ -12,7 +12,7 @@ import (
 const srpYaml1 = `
 services:
   srv1:
-    host: "example1.com"
+    host: "http://example1.com"
     healthcheck: "api/ping"
     weight: 1
 `
@@ -23,33 +23,33 @@ func TestRandomWeightedPool_NextWithOneElement(t *testing.T) {
 
 	host, err := pl.Next()
 	require.Nil(t, err)
-	assert.Equal(t, host, "example1.com")
+	assert.Equal(t, host, "http://example1.com")
 }
 
 const srpYaml2 = `
 services:
   srv1:
-    host: "example1.com"
+    host: "http://example1.com"
     healthcheck: "api/ping"
     weight: 1
 
   srv2:
-    host: "example2.com"
+    host: "http://example2.com"
     healthcheck: "api/ping"
     weight: 1
 
   srv3:
-    host: "example3.com"
+    host: "http://example3.com"
     healthcheck: "api/ping"
     weight: 0
 
   srv4:
-    host: "example4.com"
+    host: "http://example4.com"
     healthcheck: "api/ping"
     weight: 2
 
   srv5:
-    host: "example5.com"
+    host: "http://example5.com"
     healthcheck: "api/ping"
     weight: 2
 `
@@ -60,7 +60,7 @@ func TestRandomWeightedPool_NextDistribution(t *testing.T) {
 
 	// set no alive
 	for _, item := range pl.services {
-		if item.host == "example4.com" {
+		if item.host == "http://example4.com" {
 			item.alive = false
 		}
 	}
@@ -76,12 +76,12 @@ func TestRandomWeightedPool_NextDistribution(t *testing.T) {
 
 	assert.Len(t, hosts, 3)
 
-	assert.Greater(t, hosts["example1.com"], 200)
-	assert.Less(t, hosts["example1.com"], 300)
+	assert.Greater(t, hosts["http://example1.com"], 200)
+	assert.Less(t, hosts["http://example1.com"], 300)
 
-	assert.Greater(t, hosts["example2.com"], 200)
-	assert.Less(t, hosts["example2.com"], 300)
+	assert.Greater(t, hosts["http://example2.com"], 200)
+	assert.Less(t, hosts["http://example2.com"], 300)
 
-	assert.Greater(t, hosts["example5.com"], 400)
-	assert.Less(t, hosts["example5.com"], 600)
+	assert.Greater(t, hosts["http://example5.com"], 400)
+	assert.Less(t, hosts["http://example5.com"], 600)
 }
